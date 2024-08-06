@@ -15,7 +15,7 @@ const Chatroom = (props) => {
     const agentUsername = 'AGENT';
     const messageEl = useRef(null);
     const input = useRef(null);
-    
+     const [selectedLanguage, setSelectedLanguage] = useState('en');
     function getKeyByValue(object) {
         let obj = languageTranslate.find(o => o.contactId === currentContactId[0]);
         if(obj === undefined) {
@@ -34,7 +34,9 @@ const Chatroom = (props) => {
         const { AbsoluteTime, Id } = awsSdkResponse.data;
         console.log(AbsoluteTime, Id);
     }
-
+  const handleChange = (event) => {
+    setSelectedLanguage(event.target.value);
+  };
     useEffect(() => {
 
         // this ensures that the chat window will auto scoll to ensure the more recent message is in view
@@ -67,7 +69,7 @@ const Chatroom = (props) => {
          
          ******************************************************************************************************/
         console.log(newMessage);
-        let translatedMessageAPI = await translateTextAPI(newMessage, 'en', destLang.lang); // Provide a custom terminology created outside of this deployment
+        let translatedMessageAPI = await translateTextAPI(newMessage, 'en', selectedLanguage); // Provide a custom terminology created outside of this deployment
         //let translatedMessageAPI = await translateTextAPI(newMessage, 'en', destLang.lang, ['connectChatTranslate']); // Provide a custom terminology created outside of this deployment
         let translatedMessage = translatedMessageAPI.TranslatedText
 
@@ -107,7 +109,18 @@ const Chatroom = (props) => {
 
     return (
         <div className="chatroom">
-                <h3>Translate - ({languageTranslate.map(lang => {if(lang.contactId === currentContactId[0])return lang.lang})}) {getKeyByValue(languageOptions)}</h3>
+                <h3>  <select id="language-select" value={selectedLanguage} onChange={handleChange}>
+    <option>Select a language</option>
+        <option value="fr">French</option>
+        <option value="ja">Japanese</option>
+    <option value="es">Spanish</option>
+    <option value="zh">Chinese</option>
+    <option value="en">English</option>
+    <option value="pt">Portuguese</option>
+    <option value="de">German</option>
+    <option value="th">Thai</option>
+    
+      </select>Translate - ({languageTranslate.map(lang => {if(lang.contactId === currentContactId[0])return lang.lang})}) {getKeyByValue(languageOptions)}</h3>
                 <ul className="chats" ref={messageEl}>
                 {
                         // iterate over the Chats, and only display the messages for the currently active chat session
