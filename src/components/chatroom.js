@@ -120,7 +120,7 @@ const Chatroom = (props) => {
     <option value="de">German</option>
     <option value="th">Thai</option>
     
-      </select>Translate - ({languageTranslate.map(lang => {if(lang.contactId === currentContactId[0])return lang.lang})}) {getKeyByValue(languageOptions)}</h3>
+      </select>Translate</h3>
                 <ul className="chats" ref={messageEl}>
                 {
                         // iterate over the Chats, and only display the messages for the currently active chat session
